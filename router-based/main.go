@@ -1,3 +1,4 @@
+// +build OMIT
 package main
 
 import (
@@ -9,6 +10,7 @@ import (
 	"github.com/ttacon/go-tigertonic"
 )
 
+// START OMIT
 var webPort = flag.String("p", "18090", "port to run the web server on")
 
 func main() {
@@ -22,6 +24,7 @@ func main() {
 	http.ListenAndServe(":"+*webPort, mux)
 }
 
+// STOP OMIT
 func idHerro(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(fmt.Sprintf(`

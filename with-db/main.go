@@ -1,3 +1,4 @@
+// +build OMIT
 package main
 
 import (
@@ -26,6 +27,7 @@ func main() {
 		return
 	}
 
+	// START OMIT
 	dbMap = &gorp.DbMap{
 		Db: db,
 		Dialect: gorp.MySQLDialect{
@@ -35,6 +37,8 @@ func main() {
 	}
 
 	dbMap.AddTableWithName(Herro{}, "herro").SetKeys(false, "ID")
+
+	// STOP OMIT
 
 	// set up router
 	mux := tigertonic.NewTrieServeMux()
@@ -47,6 +51,7 @@ func main() {
 }
 
 func getHerro(w http.ResponseWriter, r *http.Request) {
+	// START2 OMIT
 	tx, err := dbMap.Begin()
 	if err != nil {
 		errLog("failed to begin transaction: %v", err)
@@ -67,6 +72,7 @@ func getHerro(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx.Commit()
+	// STOP2 OMIT
 	h = *d.(*Herro)
 
 	w.WriteHeader(http.StatusOK)
@@ -94,6 +100,7 @@ func saveHerro(w http.ResponseWriter, r *http.Request) {
 		val = "default"
 	}
 
+	// START1 OMIT
 	tx, err := dbMap.Begin()
 	if err != nil {
 		errLog("failed to begin transaction, err: %v", err)
@@ -114,6 +121,7 @@ func saveHerro(w http.ResponseWriter, r *http.Request) {
 	}
 
 	tx.Commit() // yes, still ignoring the error
+	// STOP1 OMIT
 	http.Redirect(w, r, fmt.Sprintf("/herro/%s", id), http.StatusFound)
 }
 

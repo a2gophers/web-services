@@ -1,3 +1,4 @@
+// +build OMIT
 package main
 
 import (
@@ -8,6 +9,7 @@ import (
 	"github.com/ttacon/chalk"
 )
 
+// START OMIT
 var webPort = flag.String("p", "18090", "port to run the web server on")
 
 func main() {
@@ -21,7 +23,12 @@ func main() {
 
 func herro(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(`
+	w.Write(herroPage)
+}
+
+// STOP OMIT
+
+var herroPage = []byte(`
 <html>
   <head><title>Herro There!</title></head>
   <body>
@@ -34,6 +41,4 @@ func herro(w http.ResponseWriter, r *http.Request) {
     </div>
   </body>
 </html>
-`,
-	))
-}
+`)
